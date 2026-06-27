@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Calculateur de Probabilités</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <h1>Calculateur de Probabilités</h1>
+      <p class="subtitle">Outils mathématiques pour l'analyse probabiliste</p>
+    </div>
+  </header>
+
+  <nav class="tab-nav">
+    <button class="tab-btn active" data-tab="simple">Probabilité Simple</button>
+    <button class="tab-btn" data-tab="combinatoire">Combinatoire</button>
+    <button class="tab-btn" data-tab="binomiale">Loi Binomiale</button>
+    <button class="tab-btn" data-tab="normale">Loi Normale</button>
+    <button class="tab-btn" data-tab="conditionnelle">Prob. Conditionnelle</button>
+    <button class="tab-btn" data-tab="bayes">Théorème de Bayes</button>
+  </nav>
+
+  <main>
+    <!-- PROBABILITE SIMPLE -->
+    <section class="tab-content active" id="tab-simple">
+      <div class="card">
+        <h2>Probabilité Simple</h2>
+        <p class="formula">P(A) = Nombre de cas favorables / Nombre de cas possibles</p>
+        <div class="input-group">
+          <label>Nombre de cas favorables</label>
+          <input type="number" id="s-favorables" min="0" value="3" />
+        </div>
+        <div class="input-group">
+          <label>Nombre de cas possibles</label>
+          <input type="number" id="s-possibles" min="1" value="10" />
+        </div>
+        <button class="calc-btn" onclick="calcSimple()">Calculer</button>
+        <div class="result" id="s-result"></div>
+      </div>
+
+      <div class="card">
+        <h2>Complémentaire &amp; Unions</h2>
+        <p class="formula">P(A') = 1 - P(A) &nbsp;|&nbsp; P(A∪B) = P(A) + P(B) - P(A∩B)</p>
+        <div class="input-row">
+          <div class="input-group">
+            <label>P(A)</label>
+            <input type="number" id="c-pa" min="0" max="1" step="0.01" value="0.4" />
+          </div>
+          <div class="input-group">
+            <label>P(B)</label>
+            <input type="number" id="c-pb" min="0" max="1" step="0.01" value="0.3" />
+          </div>
+          <div class="input-group">
+            <label>P(A∩B)</label>
+            <input type="number" id="c-pab" min="0" max="1" step="0.01" value="0.1" />
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcCompl()">Calculer</button>
+        <div class="result" id="c-result"></div>
+      </div>
+    </section>
+
+    <!-- COMBINATOIRE -->
+    <section class="tab-content" id="tab-combinatoire">
+      <div class="card">
+        <h2>Arrangements &amp; Combinaisons</h2>
+        <div class="input-row">
+          <div class="input-group">
+            <label>n (total)</label>
+            <input type="number" id="co-n" min="0" value="10" />
+          </div>
+          <div class="input-group">
+            <label>k (choisis)</label>
+            <input type="number" id="co-k" min="0" value="3" />
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcCombinato()">Calculer</button>
+        <div class="result" id="co-result"></div>
+      </div>
+
+      <div class="card">
+        <h2>Factorielle</h2>
+        <div class="input-group">
+          <label>n</label>
+          <input type="number" id="fa-n" min="0" max="170" value="5" />
+        </div>
+        <button class="calc-btn" onclick="calcFacto()">Calculer n!</button>
+        <div class="result" id="fa-result"></div>
+      </div>
+    </section>
+
+    <!-- LOI BINOMIALE -->
+    <section class="tab-content" id="tab-binomiale">
+      <div class="card">
+        <h2>Loi Binomiale B(n, p)</h2>
+        <p class="formula">P(X = k) = C(n,k) × p<sup>k</sup> × (1-p)<sup>n-k</sup></p>
+        <div class="input-row">
+          <div class="input-group">
+            <label>n (essais)</label>
+            <input type="number" id="bi-n" min="1" max="1000" value="10" />
+          </div>
+          <div class="input-group">
+            <label>p (probabilité)</label>
+            <input type="number" id="bi-p" min="0" max="1" step="0.01" value="0.5" />
+          </div>
+          <div class="input-group">
+            <label>k (succès)</label>
+            <input type="number" id="bi-k" min="0" value="5" />
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Calculer</label>
+          <select id="bi-type">
+            <option value="exact">P(X = k) — exact</option>
+            <option value="le">P(X ≤ k) — au plus k</option>
+            <option value="ge">P(X ≥ k) — au moins k</option>
+            <option value="lt">P(X &lt; k) — strictement moins</option>
+            <option value="gt">P(X &gt; k) — strictement plus</option>
+          </select>
+        </div>
+        <button class="calc-btn" onclick="calcBinomiale()">Calculer</button>
+        <div class="result" id="bi-result"></div>
+        <canvas id="bi-chart" height="200"></canvas>
+      </div>
+    </section>
+
+    <!-- LOI NORMALE -->
+    <section class="tab-content" id="tab-normale">
+      <div class="card">
+        <h2>Loi Normale N(μ, σ²)</h2>
+        <p class="formula">f(x) = (1 / (σ√(2π))) × e<sup>-½((x-μ)/σ)²</sup></p>
+        <div class="input-row">
+          <div class="input-group">
+            <label>μ (moyenne)</label>
+            <input type="number" id="no-mu" step="any" value="0" />
+          </div>
+          <div class="input-group">
+            <label>σ (écart-type)</label>
+            <input type="number" id="no-sigma" step="any" min="0.0001" value="1" />
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Type de calcul</label>
+          <select id="no-type" onchange="toggleNormaleInputs()">
+            <option value="le">P(X ≤ x)</option>
+            <option value="ge">P(X ≥ x)</option>
+            <option value="between">P(a ≤ X ≤ b)</option>
+            <option value="exact">f(x) — densité en x</option>
+          </select>
+        </div>
+        <div id="no-single-inputs">
+          <div class="input-group">
+            <label>x</label>
+            <input type="number" id="no-x" step="any" value="1" />
+          </div>
+        </div>
+        <div id="no-range-inputs" style="display:none">
+          <div class="input-row">
+            <div class="input-group">
+              <label>a</label>
+              <input type="number" id="no-a" step="any" value="-1" />
+            </div>
+            <div class="input-group">
+              <label>b</label>
+              <input type="number" id="no-b" step="any" value="1" />
+            </div>
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcNormale()">Calculer</button>
+        <div class="result" id="no-result"></div>
+        <canvas id="no-chart" height="200"></canvas>
+      </div>
+    </section>
+
+    <!-- PROBABILITE CONDITIONNELLE -->
+    <section class="tab-content" id="tab-conditionnelle">
+      <div class="card">
+        <h2>Probabilité Conditionnelle</h2>
+        <p class="formula">P(A|B) = P(A∩B) / P(B)</p>
+        <div class="input-row">
+          <div class="input-group">
+            <label>P(A∩B)</label>
+            <input type="number" id="pc-pab" min="0" max="1" step="0.001" value="0.12" />
+          </div>
+          <div class="input-group">
+            <label>P(B)</label>
+            <input type="number" id="pc-pb" min="0" max="1" step="0.001" value="0.3" />
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcConditionnelle()">Calculer P(A|B)</button>
+        <div class="result" id="pc-result"></div>
+      </div>
+
+      <div class="card">
+        <h2>Indépendance d'événements</h2>
+        <p class="formula">A et B sont indépendants si P(A∩B) = P(A) × P(B)</p>
+        <div class="input-row">
+          <div class="input-group">
+            <label>P(A)</label>
+            <input type="number" id="in-pa" min="0" max="1" step="0.001" value="0.4" />
+          </div>
+          <div class="input-group">
+            <label>P(B)</label>
+            <input type="number" id="in-pb" min="0" max="1" step="0.001" value="0.3" />
+          </div>
+          <div class="input-group">
+            <label>P(A∩B)</label>
+            <input type="number" id="in-pab" min="0" max="1" step="0.001" value="0.12" />
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcIndep()">Vérifier l'indépendance</button>
+        <div class="result" id="in-result"></div>
+      </div>
+    </section>
+
+    <!-- BAYES -->
+    <section class="tab-content" id="tab-bayes">
+      <div class="card">
+        <h2>Théorème de Bayes</h2>
+        <p class="formula">P(A|B) = P(B|A) × P(A) / P(B)</p>
+        <div class="input-row">
+          <div class="input-group">
+            <label>P(A) — probabilité a priori</label>
+            <input type="number" id="ba-pa" min="0" max="1" step="0.001" value="0.01" />
+          </div>
+          <div class="input-group">
+            <label>P(B|A) — vraisemblance</label>
+            <input type="number" id="ba-pba" min="0" max="1" step="0.001" value="0.9" />
+          </div>
+          <div class="input-group">
+            <label>P(B|A') — faux positifs</label>
+            <input type="number" id="ba-pbna" min="0" max="1" step="0.001" value="0.05" />
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcBayes()">Calculer P(A|B)</button>
+        <div class="result" id="ba-result"></div>
+        <div class="bayes-viz" id="ba-viz"></div>
+      </div>
+
+      <div class="card">
+        <h2>Formule des probabilités totales</h2>
+        <p class="formula">P(B) = P(B|A)×P(A) + P(B|A')×P(A')</p>
+        <div class="input-row">
+          <div class="input-group">
+            <label>P(A)</label>
+            <input type="number" id="pt-pa" min="0" max="1" step="0.001" value="0.3" />
+          </div>
+          <div class="input-group">
+            <label>P(B|A)</label>
+            <input type="number" id="pt-pba" min="0" max="1" step="0.001" value="0.6" />
+          </div>
+          <div class="input-group">
+            <label>P(B|A')</label>
+            <input type="number" id="pt-pbna" min="0" max="1" step="0.001" value="0.2" />
+          </div>
+        </div>
+        <button class="calc-btn" onclick="calcProbTotales()">Calculer P(B)</button>
+        <div class="result" id="pt-result"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Calculateur de Probabilités &mdash; Tous droits réservés</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
