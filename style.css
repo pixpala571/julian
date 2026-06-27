@@ -1,0 +1,333 @@
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --blue:    #3b82f6;
+  --blue-dk: #1d4ed8;
+  --blue-lt: #eff6ff;
+  --green:   #22c55e;
+  --red:     #ef4444;
+  --orange:  #f97316;
+  --purple:  #a855f7;
+  --gray-50:  #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-500: #6b7280;
+  --gray-700: #374151;
+  --gray-900: #111827;
+  --radius: 12px;
+  --shadow: 0 4px 24px rgba(0,0,0,.08);
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--gray-50);
+  color: var(--gray-700);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+header {
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 60%, #06b6d4 100%);
+  color: white;
+  padding: 2.5rem 1.5rem 2rem;
+  text-align: center;
+}
+
+.header-inner h1 {
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -.5px;
+  text-shadow: 0 2px 8px rgba(0,0,0,.2);
+}
+
+.subtitle {
+  margin-top: .4rem;
+  opacity: .85;
+  font-size: .95rem;
+}
+
+/* ============================================
+   NAVIGATION TABS
+   ============================================ */
+.tab-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  padding: 1rem 1.5rem;
+  background: white;
+  border-bottom: 2px solid var(--gray-200);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+
+.tab-btn {
+  padding: .5rem 1.1rem;
+  border: 2px solid var(--gray-200);
+  border-radius: 8px;
+  background: white;
+  color: var(--gray-500);
+  font-size: .88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .18s ease;
+  white-space: nowrap;
+}
+
+.tab-btn:hover {
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.tab-btn.active {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: white;
+  box-shadow: 0 2px 8px rgba(59,130,246,.35);
+}
+
+/* ============================================
+   MAIN CONTENT
+   ============================================ */
+main {
+  flex: 1;
+  padding: 1.5rem;
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: flex; flex-direction: column; gap: 1.25rem; }
+
+/* ============================================
+   CARDS
+   ============================================ */
+.card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--gray-200);
+}
+
+.card h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--gray-900);
+  margin-bottom: .4rem;
+}
+
+.formula {
+  font-family: 'Courier New', monospace;
+  font-size: .9rem;
+  color: var(--blue-dk);
+  background: var(--blue-lt);
+  border-left: 3px solid var(--blue);
+  padding: .5rem .9rem;
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 1.2rem;
+  line-height: 1.6;
+}
+
+/* ============================================
+   INPUTS
+   ============================================ */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  flex: 1;
+  min-width: 120px;
+}
+
+.input-group label {
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.input-group input,
+.input-group select {
+  padding: .55rem .75rem;
+  border: 2px solid var(--gray-200);
+  border-radius: 8px;
+  font-size: 1rem;
+  color: var(--gray-900);
+  background: var(--gray-50);
+  transition: border-color .15s;
+  width: 100%;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  outline: none;
+  border-color: var(--blue);
+  background: white;
+}
+
+.input-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.input-group:not(:last-child):not(.input-row .input-group) {
+  margin-bottom: 1rem;
+}
+
+.input-row + .input-group,
+.input-group + .input-group {
+  margin-top: 0;
+}
+
+.card > .input-group { margin-bottom: 1rem; }
+
+/* ============================================
+   BUTTON
+   ============================================ */
+.calc-btn {
+  padding: .7rem 1.8rem;
+  background: var(--blue);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .18s, transform .12s, box-shadow .18s;
+  margin-top: .5rem;
+  box-shadow: 0 2px 8px rgba(59,130,246,.3);
+}
+
+.calc-btn:hover {
+  background: var(--blue-dk);
+  box-shadow: 0 4px 16px rgba(59,130,246,.4);
+  transform: translateY(-1px);
+}
+
+.calc-btn:active { transform: translateY(0); }
+
+/* ============================================
+   RESULT BOX
+   ============================================ */
+.result {
+  margin-top: 1.2rem;
+  padding: 1rem 1.2rem;
+  border-radius: 8px;
+  font-size: .97rem;
+  line-height: 1.7;
+  display: none;
+}
+
+.result.show { display: block; }
+
+.result.success {
+  background: #f0fdf4;
+  border: 1.5px solid #86efac;
+  color: #166534;
+}
+
+.result.error {
+  background: #fef2f2;
+  border: 1.5px solid #fca5a5;
+  color: #991b1b;
+}
+
+.result strong { font-weight: 700; }
+.result .big-num {
+  font-size: 1.5rem;
+  font-weight: 800;
+  display: block;
+  margin: .3rem 0;
+  color: var(--blue-dk);
+}
+.result .big-num.green { color: #166534; }
+.result .big-num.orange { color: #c2410c; }
+
+/* ============================================
+   CANVAS CHARTS
+   ============================================ */
+canvas {
+  margin-top: 1.2rem;
+  max-width: 100%;
+  border-radius: 8px;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-200);
+}
+
+/* ============================================
+   BAYES VISUALIZATION
+   ============================================ */
+.bayes-viz {
+  margin-top: 1.2rem;
+}
+
+.bayes-row {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin-bottom: .5rem;
+  font-size: .9rem;
+}
+
+.bayes-bar-wrap {
+  flex: 1;
+  height: 22px;
+  background: var(--gray-200);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.bayes-bar {
+  height: 100%;
+  border-radius: 6px;
+  transition: width .4s ease;
+}
+
+.bayes-label {
+  min-width: 130px;
+  font-weight: 600;
+}
+
+.bayes-pct {
+  min-width: 55px;
+  text-align: right;
+  font-weight: 700;
+  font-family: monospace;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+footer {
+  text-align: center;
+  padding: 1.2rem;
+  font-size: .82rem;
+  color: var(--gray-500);
+  border-top: 1px solid var(--gray-200);
+  background: white;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 600px) {
+  .tab-nav { gap: .25rem; padding: .75rem 1rem; }
+  .tab-btn { font-size: .8rem; padding: .4rem .8rem; }
+  main { padding: 1rem; }
+  .card { padding: 1.25rem; }
+  .input-row { flex-direction: column; }
+}
